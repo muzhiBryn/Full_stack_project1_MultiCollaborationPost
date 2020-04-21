@@ -1,5 +1,17 @@
 @import "~bootstrap/scss/bootstrap";
 
 .my-card {
-   width: 18rem 
+   width: 18rem
+}
+
+.float-right {
+  float: right;
+}
+
+i {
+  margin: 0.2rem;
+}
+
+.hidden {
+  display: none;
 }

@@ -10,15 +10,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nextId: 1,
+      nextId: 2,
       notes: factoryMap({
-        0: {
-          title: 'hello',
-          content: 'please give my an apple',
-        },
         1: {
-          title: 'hello1',
-          content: 'please give my two apples',
+          title: 'cat',
+          content: '![](http://i.giphy.com/gyRWkLSQVqlPi.gif)',
         },
       }),
     };
@@ -26,19 +22,25 @@ class App extends Component {
   }
 
   createNewNote = (text) => {
-    console.log(this.state.notes);
-    this.state.nextId += 1;
     this.setState((prevState) => ({
+      nextId: prevState.nextId + 1,
       notes: prevState.notes.update(prevState.nextId, () => { return { title: text, content: '' }; }),
     }));
     console.log(this.state.notes);
   };
 
+  deleteNote = (id) => {
+    console.log(id);
+    this.setState((prevState) => ({
+      notes: prevState.notes.delete(id),
+    }));
+  }
+
   render() {
     return (
       <div>
         <CreateBar onSubmitClicked={this.createNewNote} />
-        { this.state.notes.entrySeq().map(([id, noteDetail]) => <Note id={id} noteDetail={noteDetail} />) };
+        { this.state.notes.entrySeq().map(([id, noteDetail]) => <Note id={id} noteDetail={noteDetail} onDeleteClicked={this.deleteNote} />) }
       </div>
     );
   }

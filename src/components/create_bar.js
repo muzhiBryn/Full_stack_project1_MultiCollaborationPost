@@ -20,7 +20,6 @@ class CreateBar extends Component {
 
   onSubmitClicked(event) {
     this.props.onSubmitClicked(this.state.title);
-    console.log(this.state.title);
   }
 
   render() {
