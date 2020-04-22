@@ -3,19 +3,20 @@ import Card from 'react-bootstrap/Card';
 import Draggable from 'react-draggable';
 import TextareaAutosize from 'react-textarea-autosize';
 import marked from 'marked';
+import * as firebasedb from '../services/datastore';
 
 class Note extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.id,
-      title: props.noteDetail.title,
-      content: props.noteDetail.content,
-      x: 20,
-      y: 20,
       dragEnabled: false,
       isEditing: false,
     };
+    // id: props.id,
+    // title: props.noteDetail.title,
+    // content: props.noteDetail.content,
+    // x: props.noteDetail.x,
+    // y: props.noteDetail.y,
     this.onInputChange = this.onInputChange.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -24,20 +25,19 @@ class Note extends Component {
   }
 
   onInputChange = (event) => {
-    this.setState({ content: event.target.value });
+    // this.setState({ content: event.target.value });
+    firebasedb.saveNoteKV(this.props.id, 'content', event.target.value);
   };
 
 
   handleDeleteClick = () => {
-    this.props.onDeleteClicked(this.state.id);
+    this.props.onDeleteClicked(this.props.id);
   };
 
   handleDrag = (event, ui) => {
     if (this.state.dragEnabled) {
-      this.setState((prevState) => ({
-        x: ui.x,
-        y: ui.y,
-      }));
+      firebasedb.saveNoteKV(this.props.id, 'x', ui.x);
+      firebasedb.saveNoteKV(this.props.id, 'y', ui.y);
     }
   }
 
@@ -74,16 +74,16 @@ class Note extends Component {
     return (
       <Draggable
         handle=".handle"
-        grid={[5, 5]}
-        defaultPosition={{ x: this.state.x, y: this.state.y }}
+        grid={[10, 10]}
+        defaultPosition={{ x: this.props.noteDetail.x, y: this.props.noteDetail.y }}
         position={{
-          x: this.state.x, y: this.state.y,
+          x: this.props.noteDetail.x, y: this.props.noteDetail.y,
         }}
         onDrag={this.handleDrag}
       >
-        <Card className={cardClassName}>
+        <Card className={cardClassName} id={this.props.id}>
           <Card.Body>
-            <Card.Title> {this.state.title}
+            <Card.Title> {this.props.noteDetail.title}
               <span
                 onClick={this.handleDeleteClick}
                 role="button"
@@ -118,9 +118,9 @@ class Note extends Component {
               </span>
             </Card.Title>
 
-            <TextareaAutosize className={editMode} onChange={this.onInputChange} value={this.state.content} />
+            <TextareaAutosize className={editMode} onChange={this.onInputChange} value={this.props.noteDetail.content} />
 
-            <div className={`${normalMode} notebody`} dangerouslySetInnerHTML={{ __html: marked(this.state.content || '') }} />
+            <div className={normalMode} dangerouslySetInnerHTML={{ __html: marked(this.props.noteDetail.content || '') }} />
 
 
           </Card.Body>

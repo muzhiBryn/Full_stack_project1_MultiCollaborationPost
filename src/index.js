@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nextId: 2,
+      // nextId: 2,
       notes: factoryMap({
         // 1: {
         //   title: 'cat',
@@ -23,38 +23,53 @@ class App extends Component {
   }
 
   componentDidMount() {
-    firebasedb.fetchNotes((firebaseNotes) => {
-      console.log('firebaseNotes');
-      console.log(firebaseNotes);
-      this.setState({ notes: factoryMap(firebaseNotes) });
+    console.log('I want to render again');
+
+    firebasedb.fetchNotes((dbnotes) => {
+      this.setState({ notes: factoryMap(dbnotes) });
     });
   }
 
+  // // part1 create new note
+  // createNewNote = (text) => {
+  //   this.setState((prevState) => ({
+  //     nextId: prevState.nextId + 1,
+  //     notes: prevState.notes.update(prevState.nextId, () => { return { title: text, content: '' }; }),
+  //   }));
+  //   console.log(this.state.notes);
+  // };
+
+  // firebase create new note
   createNewNote = (text) => {
-    this.setState((prevState) => ({
-      nextId: prevState.nextId + 1,
-      notes: prevState.notes.update(prevState.nextId, () => { return { title: text, content: '' }; }),
-    }), () => {
-      console.log(this.state.notes);
-      firebasedb.saveNote(this.state.notes);
-    });
+    firebasedb.newNote(
+      {
+        title: text, content: '', x: 20, y: 20,
+      },
+    );
   };
 
+  // // part1 delete note
+  // deleteNote = (id) => {
+  //   console.log(id);
+  //   this.setState((prevState) => ({
+  //     notes: prevState.notes.delete(id),
+  //   }));
+  // }
+
+  // firebase delete note
   deleteNote = (id) => {
-    console.log(id);
-    this.setState((prevState) => ({
-      notes: prevState.notes.delete(id),
-    }));
+    firebasedb.deleteNote(id);
   }
 
   render() {
     return (
       <div>
         <CreateBar onSubmitClicked={this.createNewNote} />
-        { this.state.notes.entrySeq().map(([id, noteDetail]) => <Note id={id} noteDetail={noteDetail} onDeleteClicked={this.deleteNote} />) }
+        { this.state.notes.entrySeq().map(([id, noteDetail]) => <Note key={id} id={id} noteDetail={noteDetail} onDeleteClicked={this.deleteNote} />) }
       </div>
     );
   }
 }
+
 
 ReactDOM.render(<App />, document.getElementById('main'));

@@ -13,19 +13,26 @@ const firebaseConfig = {
 
 Firebase.initializeApp(firebaseConfig);
 const database = Firebase.database();
+const notesMapRef = database.ref('jialing_notes');
 
 
 export function fetchNotes(callback) {
-  database.ref().on('value', (snapshot) => {
-    console.log(snapshot.val());
+  notesMapRef.on('value', (snapshot) => {
     callback(snapshot.val());
   });
 }
 
-export function saveNote(notes, callback) {
-  console.log('try to save');
-  console.log(notes.toJS());
-  database.ref().set(notes.toJS());
+export function newNote(noteInitialDetailJson) {
+  const newNoteRef = notesMapRef.push();
+  newNoteRef.set(noteInitialDetailJson);
+}
+
+export function saveNoteKV(id, key, value) {
+  notesMapRef.child(id).child(key).set(value);
+}
+
+export function deleteNote(id) {
+  notesMapRef.child(id).remove();
 }
 
 
