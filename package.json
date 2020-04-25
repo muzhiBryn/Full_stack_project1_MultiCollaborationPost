@@ -1,5 +1,5 @@
 {
-  "name": "starterpack-luckyjialing",
+  "name": "lab3-luckyjialing",
   "version": "1.0.0",
   "main": "src/index.js",
   "repository": "https://github.com/dartmouth-cs52-20S/starterpack-luckyjialing.git",
@@ -10,7 +10,7 @@
     "test": "eslint src/**.js",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build; surge -p dist -d starterpack-luckyjialing.surge.sh; yarn clean"
+    "deploy": "yarn build; surge -p dist -d lab3-reactnotes-luckyjialing.surge.sh; yarn clean"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

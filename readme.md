@@ -1,15 +1,9 @@
-Notes App:
-Add a note:
-can either be a single title input + create button
-or a modal if you prefer with all fields
-Delete a note
-Move a note in x, y
-optionally in z (zIndex)
-Edit a note:
-title, content
-Notes:
-have title and content
-display with some formatting
-Persists all changes to Firebase in realtime
-Updates based on Firebase events
-is at least as stylish as these mockups
+# About Lab3
+  
+when you open the link, you could see a predefined note with a cute cat.
+
+you can try with the **delete** icon, **edit** icon and **drag** icon to check if it works.
+![alt text](1.png)
+
+OK. Now you can change to safary or chrome or firefox and check about whether it works realtime.
+![alt text](2.png)
