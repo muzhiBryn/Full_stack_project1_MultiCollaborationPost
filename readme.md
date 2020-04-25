@@ -1,4 +1,7 @@
 # About Lab3
+github link: 
+
+url: http://lab3-reactnotes-luckyjialing.surge.sh/
   
 when you open the link, you could see a predefined note with a cute cat.
 
