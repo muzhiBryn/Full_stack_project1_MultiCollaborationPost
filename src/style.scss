@@ -1,7 +1,16 @@
 @import "~bootstrap/scss/bootstrap";
 
 .my-card {
-   width: 18rem
+  position: absolute;
+  width: 18rem
+}
+
+.my-card input {
+  width: 5rem
+}
+
+.my-card-content img {
+  width: 15rem
 }
 
 .float-right {

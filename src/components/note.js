@@ -24,9 +24,12 @@ class Note extends Component {
     this.disableDrag = this.disableDrag.bind(this);
   }
 
-  onInputChange = (event) => {
-    // this.setState({ content: event.target.value });
-    firebasedb.saveNoteKV(this.props.id, 'content', event.target.value);
+  onInputChange = (source, event) => {
+    if (source === 'content') {
+      firebasedb.saveNoteKV(this.props.id, 'content', event.target.value);
+    } else if (source === 'title') {
+      firebasedb.saveNoteKV(this.props.id, 'title', event.target.value);
+    }
   };
 
 
@@ -83,7 +86,11 @@ class Note extends Component {
       >
         <Card className={cardClassName} id={this.props.id}>
           <Card.Body>
-            <Card.Title> {this.props.noteDetail.title}
+            <Card.Title>
+              <span className={normalMode}>{this.props.noteDetail.title}
+              </span>
+
+              <input className={editMode} onChange={(e) => this.onInputChange('title', e)} value={this.props.noteDetail.title} />
               <span
                 onClick={this.handleDeleteClick}
                 role="button"
@@ -118,9 +125,9 @@ class Note extends Component {
               </span>
             </Card.Title>
 
-            <TextareaAutosize className={editMode} onChange={this.onInputChange} value={this.props.noteDetail.content} />
+            <TextareaAutosize className={editMode} onChange={(e) => this.onInputChange('content', e)} value={this.props.noteDetail.content} />
 
-            <div className={normalMode} dangerouslySetInnerHTML={{ __html: marked(this.props.noteDetail.content || '') }} />
+            <div className={`my-card-content ${normalMode}`} dangerouslySetInnerHTML={{ __html: marked(this.props.noteDetail.content || '') }} />
 
 
           </Card.Body>
