@@ -9,4 +9,4 @@ you can try with the **delete** icon, **edit** icon and **drag** icon to check i
 ![alt text](3.png)
 
 OK. Now you can change to safari or chrome or firefox and check about whether it works realtime.
-![alt text](2.png)
+![alt text](4.png)
